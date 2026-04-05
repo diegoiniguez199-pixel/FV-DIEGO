@@ -16,7 +16,7 @@ La aplicacion principal actual combina:
 - Una interfaz de usuario con Flet
 - Modelos de machine learning entrenados previamente y guardados en `models/`
 
-Desde 2026-04-05 tambien existe una ruta de despliegue web lista para Render con una sola aplicacion ASGI en `main.py`.
+Desde 2026-04-05 existe una ruta de despliegue web lista para Render con una sola aplicacion ASGI en `main.py`.
 
 ## Flujo principal
 
@@ -33,10 +33,10 @@ Desde 2026-04-05 tambien existe una ruta de despliegue web lista para Render con
 
 ### Flujo recomendado actual
 
-1. `main.py` monta una app FastAPI y la UI Flet en la misma aplicacion.
-2. La UI web en `web_ui.py` llama directamente a `predictor.calcular(...)`.
-3. La API queda disponible en `/api/health` y `/api/predict`.
-4. Render solo necesita ejecutar `uvicorn main:app --host 0.0.0.0 --port $PORT`.
+1. `main.py` exporta directamente la app Flet como ASGI.
+2. `Appweb_web.py` ejecuta el calculo directamente con `predictor.calcular(...)`.
+3. Render solo necesita ejecutar `uvicorn main:app --host 0.0.0.0 --port $PORT`.
+4. El health check de Render puede hacerse sobre `/`.
 
 ## Archivos importantes
 
@@ -83,9 +83,7 @@ Punto de entrada recomendado para produccion.
 
 Responsabilidades:
 
-- Crear la aplicacion ASGI principal
-- Montar la API bajo `/api`
-- Montar la UI Flet en `/` usando `Appweb_web.py`
+- Exportar la app Flet como ASGI usando `Appweb_web.py`
 - Servir como entrypoint de Render
 - Usar estrategia de rutas `hash` para evitar problemas de 404 en despliegue web
 
@@ -99,7 +97,7 @@ Configuracion actual:
 - `plan: free`
 - `buildCommand: pip install -r requirements.txt`
 - `startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT`
-- `healthCheckPath: /api/health`
+- `healthCheckPath: /`
 
 ### `predictor.py`
 
@@ -155,7 +153,6 @@ Desde la raiz `D:\Diego Tesis\FV`:
 Luego abrir:
 
 - `http://127.0.0.1:8000/` para la UI
-- `http://127.0.0.1:8000/api/health` para verificar la API
 
 ### Opcion local de UI solamente
 
@@ -188,7 +185,7 @@ Luego abrir:
 - El repositorio tiene varios archivos de pruebas, borradores y versiones antiguas.
 - `Appweb.py` y `Appweb_web.py` resuelven problemas parecidos, pero con enfoques distintos.
 - `Appweb_web.py` es la UI principal.
-- `main.py` es el contenedor de produccion para Render.
+- `main.py` es el entrypoint de produccion para Render.
 - Hay algunos textos con problemas de codificacion en ciertos archivos antiguos.
 - El backend y los modelos responden correctamente en el entorno actual.
 

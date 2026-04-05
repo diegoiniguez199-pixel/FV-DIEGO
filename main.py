@@ -1,22 +1,10 @@
-from contextlib import asynccontextmanager
+import flet as ft
 
-import flet.fastapi as flet_fastapi
-from fastapi import FastAPI
-
-from api import app as api_app
 from Appweb_web import main as flet_main
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    await flet_fastapi.app_manager.start()
-    yield
-    await flet_fastapi.app_manager.shutdown()
-
-
-app = FastAPI(
-    title="Predicción de Energía Fotovoltaica",
-    lifespan=lifespan,
+app = ft.app(
+    target=flet_main,
+    export_asgi_app=True,
+    route_url_strategy="hash",
 )
-app.mount("/api", api_app)
-app.mount("/", flet_fastapi.app(flet_main, route_url_strategy="hash"))
