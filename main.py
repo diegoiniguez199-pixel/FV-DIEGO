@@ -4,7 +4,7 @@ import flet.fastapi as flet_fastapi
 from fastapi import FastAPI
 
 from api import app as api_app
-from web_ui import main as flet_main
+from Appweb_web import main as flet_main
 
 
 @asynccontextmanager
@@ -19,4 +19,4 @@ app = FastAPI(
     lifespan=lifespan,
 )
 app.mount("/api", api_app)
-app.mount("/", flet_fastapi.app(flet_main))
+app.mount("/", flet_fastapi.app(flet_main, route_url_strategy="hash"))

@@ -42,13 +42,13 @@ Desde 2026-04-05 tambien existe una ruta de despliegue web lista para Render con
 
 ### `Appweb_web.py`
 
-Interfaz Flet actual que consume la API.
+Interfaz Flet principal actual del proyecto.
 
 Responsabilidades:
 
 - Construir la ventana principal
 - Recibir los datos del usuario
-- Llamar a `http://127.0.0.1:8000/predict`
+- Ejecutar el calculo directamente con `predictor.calcular(...)`
 - Mostrar resultados diarios, mensuales y anuales
 
 Cambios recientes:
@@ -58,22 +58,10 @@ Cambios recientes:
   - Temperatura: ejemplo y rango sugerido `15 a 24`
   - Potencia total: ejemplo `20`
 - Se ajusto la alineacion vertical de la fila de inputs para evitar que el tercer campo quede descuadrado cuando otros tienen `helper_text`.
-
-### `web_ui.py`
-
-Nueva interfaz Flet preparada para despliegue web.
-
-Responsabilidades:
-
-- Construir la UI para uso local y web
-- Ejecutar el calculo directamente con `predictor.calcular(...)`
-- Evitar dependencia de `127.0.0.1`
-- Permitir que la app sea montada por FastAPI para despliegue en Render
-
-Notas:
-
-- Esta es la version recomendada para despliegue.
-- Si se ejecuta sola, tambien puede abrirse con `python web_ui.py`.
+- Se adapto para despliegue web:
+  - ya no depende de `127.0.0.1`
+  - puede ejecutarse localmente o montarse desde `main.py`
+  - soporta mejor layout responsivo con `wrap=True`
 
 ### `api.py`
 
@@ -97,8 +85,9 @@ Responsabilidades:
 
 - Crear la aplicacion ASGI principal
 - Montar la API bajo `/api`
-- Montar la UI Flet en `/`
+- Montar la UI Flet en `/` usando `Appweb_web.py`
 - Servir como entrypoint de Render
+- Usar estrategia de rutas `hash` para evitar problemas de 404 en despliegue web
 
 ### `render.yaml`
 
@@ -171,7 +160,7 @@ Luego abrir:
 ### Opcion local de UI solamente
 
 ```powershell
-.\.venv\Scripts\python.exe web_ui.py
+.\.venv\Scripts\python.exe Appweb_web.py
 ```
 
 ### Opcion heredada
@@ -198,7 +187,8 @@ Luego abrir:
 
 - El repositorio tiene varios archivos de pruebas, borradores y versiones antiguas.
 - `Appweb.py` y `Appweb_web.py` resuelven problemas parecidos, pero con enfoques distintos.
-- `web_ui.py` y `main.py` son ahora la base recomendada para despliegue web.
+- `Appweb_web.py` es la UI principal.
+- `main.py` es el contenedor de produccion para Render.
 - Hay algunos textos con problemas de codificacion en ciertos archivos antiguos.
 - El backend y los modelos responden correctamente en el entorno actual.
 

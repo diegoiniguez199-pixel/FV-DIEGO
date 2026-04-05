@@ -14,7 +14,7 @@ Mantener una aplicacion de prediccion de energia fotovoltaica clara, estable y f
 - Modelos `.pkl` ya disponibles en `models/`
 - Inputs de irradiacion y temperatura ya muestran ejemplos y rangos sugeridos
 - Alineacion de inputs ya corregida
-- Ruta de despliegue nueva en `web_ui.py` + `main.py`
+- Ruta de despliegue en `Appweb_web.py` + `main.py`
 - Configuracion de Render creada en `render.yaml`
 - Archivo `.gitignore` agregado para no subir basura de entorno
 
@@ -67,7 +67,8 @@ Cada vez que hagamos un cambio, este archivo se actualizara para reflejar:
 - Se registraron los cambios recientes en `Appweb_web.py`:
   - ejemplos y rangos sugeridos en inputs
   - correccion de alineacion visual en la fila de campos
-- Se creo `web_ui.py` como UI preparada para despliegue sin dependencia de `127.0.0.1`.
-- Se creo `main.py` para montar Flet + FastAPI en una sola app ASGI.
+- Se adapto `Appweb_web.py` para despliegue sin dependencia de `127.0.0.1`.
+- Se dejo `main.py` como contenedor ASGI para Render usando `Appweb_web.py`.
+- Se cambio la estrategia de rutas web a `hash` para mitigar errores tipo 404 en despliegue.
 - Se creo `render.yaml` para despliegue en Render.
 - Se creo `.gitignore` basico para evitar subir el entorno virtual y caches.
