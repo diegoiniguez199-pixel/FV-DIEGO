@@ -16,6 +16,7 @@ Mantener una aplicacion de prediccion de energia fotovoltaica clara, estable y f
 - Alineacion de inputs ya corregida
 - Ruta de despliegue simplificada en `Appweb_web.py` + `main.py`
 - Configuracion de Render creada en `render.yaml`
+- Version de Python fijada en `.python-version`
 - Archivo `.gitignore` agregado para no subir basura de entorno
 
 ## Mejoras propuestas
@@ -26,7 +27,7 @@ Mantener una aplicacion de prediccion de energia fotovoltaica clara, estable y f
   - Irradiacion sugerida: `1,5 a 8`
   - Temperatura sugerida: `15 a 24`
 - Unificar oficialmente cual archivo queda como UI canonica del proyecto
-- Confirmar despliegue real en Render con la ruta simplificada de Flet
+- Confirmar despliegue real en Render con Python `3.11`
 
 ### Prioridad media
 
@@ -71,4 +72,5 @@ Cada vez que hagamos un cambio, este archivo se actualizara para reflejar:
 - Se simplifico `main.py` para exportar directamente la app Flet como ASGI.
 - Se cambio la estrategia de rutas web a `hash` para mitigar errores tipo 404 en despliegue.
 - Se ajusto `render.yaml` para hacer health check sobre `/`.
+- Se agrego `.python-version` con `3.11` para evitar fallos de build de `pandas` en Render.
 - Se creo `.gitignore` basico para evitar subir el entorno virtual y caches.

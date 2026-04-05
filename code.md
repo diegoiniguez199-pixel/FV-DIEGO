@@ -99,6 +99,20 @@ Configuracion actual:
 - `startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT`
 - `healthCheckPath: /`
 
+### `.python-version`
+
+Fija la version de Python recomendada para despliegue en Render.
+
+Valor actual:
+
+- `3.11`
+
+Motivo:
+
+- `pandas 2.2.2` soporta Python `3.9`, `3.10`, `3.11` y `3.12`
+- Render usa versiones de Python muy nuevas por defecto si no se fija una version
+- Esto puede provocar que `pip` intente compilar `pandas` desde fuente y falle durante el build
+
 ### `predictor.py`
 
 Logica central de prediccion.
@@ -186,6 +200,7 @@ Luego abrir:
 - `Appweb.py` y `Appweb_web.py` resuelven problemas parecidos, pero con enfoques distintos.
 - `Appweb_web.py` es la UI principal.
 - `main.py` es el entrypoint de produccion para Render.
+- El despliegue en Render debe usar Python `3.11` para compatibilidad con dependencias fijadas.
 - Hay algunos textos con problemas de codificacion en ciertos archivos antiguos.
 - El backend y los modelos responden correctamente en el entorno actual.
 
