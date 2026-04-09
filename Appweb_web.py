@@ -20,6 +20,7 @@ SUCCESS = "#1B8F63"
 WARNING = "#E58A1F"
 AVERAGE = "#F04E3E"
 TOTAL = "#1768AC"
+UNL_ICON_PATH = Path(__file__).with_name("UNL.ico")
 UNL_LOGO_URL = "https://raw.githubusercontent.com/DiegolPRO/imagenes-fv/0ffcbcc44367796443d7cfddf0f2a5c4c478c55f/UNL.png"
 
 CARD_SHADOW = [
@@ -37,6 +38,8 @@ def main(page: ft.Page):
     page.theme_mode = ft.ThemeMode.LIGHT
     page.theme = ft.Theme(color_scheme_seed=ft.colors.BLUE)
     if not page.web:
+        if UNL_ICON_PATH.exists():
+            page.window.icon = str(UNL_ICON_PATH)
         page.window.maximized = True
         page.window.min_width = 420
         page.window.min_height = 760
